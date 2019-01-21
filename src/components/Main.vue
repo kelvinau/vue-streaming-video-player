@@ -8,8 +8,8 @@
 export default {
   name: 'Main',
   props: {
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
