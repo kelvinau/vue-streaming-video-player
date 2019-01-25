@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Timeline from '@/components/timeline';
+import Timeline from '@/components/timeline/timeline.vue';
 
 export default {
   name: 'Main',
