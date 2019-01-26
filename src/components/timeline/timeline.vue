@@ -21,7 +21,7 @@ export default {
         // min: this.$store.getters['timeline/firstStart'],
         showCurrentTime: false,
       }
-    }
+    },
   },
   computed: {
     videos() {
@@ -43,10 +43,9 @@ export default {
         start: '2019-01-13',
         content: 'New Item',
       });
-
-    }, 3000)
+    }, 3000);
   },
-}
+};
 </script>
 
 <style scoped>

@@ -8,14 +8,14 @@ import moment from 'moment';
 const state = {
   videos: new DataSet([]),
   parts: new DataSet([]),
-}
+};
 
 const getters = {
   firstStart(state) {
     // const item = state.parts.min('start');
     // return item ? item.start : '';
   },
-}
+};
 
 const mutations = {
   setVideos(state, videos) {
@@ -31,7 +31,7 @@ const mutations = {
     // TODO: Also handle videos
     state.parts.push(part);
   }
-}
+};
 
 const actions = {
   // should be an async request
@@ -66,7 +66,7 @@ const actions = {
     commit('setVideos', videos);
     commit('setParts', allParts);
   }
-}
+};
 
 function getParts(videos) {
     const parts = [];
@@ -82,4 +82,4 @@ export default {
   getters,
   mutations,
   actions,
-}
+};
