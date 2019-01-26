@@ -10,9 +10,9 @@ class Video {
 }
 
 class Part {
-  constructor(id, groupId, start, end) {
+  constructor({id, groupId, start, end}) {
     this.id = id;
-    this.groupId = groupId;
+    this.group = groupId;
     this.start = start;
     this.end = end;
   }

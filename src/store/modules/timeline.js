@@ -49,15 +49,15 @@ const actions = {
         parts: (function(groupId) {
           const parts = [];
           for (let i = 0; i < 10; i++) {
-            parts.push({
+            parts.push(new Part({
               id: `${groupId}--${i}`,
-              group: groupId,
+              groupId,
               start: `2019-01-0${i + 1} ${groupId}:${i}`,
               // start: moment(`2018-01-0${i} 01:1${i}`).toDate(),
               // start: new Date(),
 
               end: `2019-01-0${i + 1} ${groupId + 10}:${i}`,
-            });
+            }));
           }
           allParts.push(...parts);
           return parts;
