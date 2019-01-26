@@ -1,6 +1,5 @@
 <template>
   <div>
-    Timeline
     <Vis-Timeline ref="timeline" :items="parts" :groups="videos" :options="options"/>
   </div>
 </template>
@@ -41,6 +40,7 @@ export default {
         },
       ]),
       options: {
+        showCurrentTime: false,
       }
     }
   },
@@ -49,7 +49,7 @@ export default {
       return this.$store.state.timeline.videos;
     },
     parts() {
-      return this.$store.getters['timeline/parts'];
+      return this.$store.state.timeline.parts;
     },
   },
   methods: {

@@ -1,28 +1,29 @@
-import Video from '../../factories/Video';
+import {Video, Part} from '../../factories/Video';
 
 import {Timeline, DataSet} from 'vue2vis';
 
 import moment from 'moment';
 
+// separate to two state because looping videos to get back parts every time seems seems too much
 const state = {
   videos: new DataSet([]),
+  parts: new DataSet([]),
 }
 
 const getters = {
-  parts(state) {
-    const parts = [];
-    state.videos.forEach((v) => {
-      parts.push(...v.parts);
-    })
-    return new DataSet(parts);
-    // return new DataSet(state.videos.reduce((combined, v) => [...combined, v.parts], []));
-  }
+  firstStart(state) {
+    return state.gett
+  },
 }
 
 const mutations = {
   setVideos(state, videos) {
+    // TODO: should be working on the same instance instead?
     state.videos = new DataSet(videos);
-  }
+  },
+  setParts(state, parts) {
+    state.parts = new DataSet(parts);
+  },
 }
 
 const actions = {
@@ -30,6 +31,7 @@ const actions = {
   retrieveAllVideos({commit}) {
     // mock data
     const videos = [];
+    const allParts = [];
     for (let i = 0; i < 10; i++) {
       // videos.push(new Video({
         // id: i,
@@ -48,20 +50,30 @@ const actions = {
             parts.push({
               id: `${groupId}--${i}`,
               group: groupId,
-              start: `2018-01-0${i + 1} 01:10`,
+              start: `2018-01-0${i + 1} ${groupId}:${i}`,
               // start: moment(`2018-01-0${i} 01:1${i}`).toDate(),
               // start: new Date(),
 
-              end: `2018-01-0${i + 1} 10:10`,
+              end: `2018-01-0${i + 1} ${groupId + 10}:${i}`,
             });
           }
+          allParts.push(...parts);
           return parts;
         })(i),
       });
     }
-    console.log(videos);
+    // console.log(videos);
     commit('setVideos', videos);
+    commit('setParts', allParts);
   }
+}
+
+function getParts(videos) {
+    const parts = [];
+    state.videos.forEach((v) => {
+      parts.push(...v.parts);
+    });
+    return parts;
 }
 
 export default {
