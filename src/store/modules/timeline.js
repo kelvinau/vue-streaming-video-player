@@ -42,14 +42,7 @@ const actions = {
     const videos = [];
     const allParts = [];
     for (let i = 0; i < 10; i++) {
-      // videos.push(new Video({
-        // id: i,
-        // link: `/video.com?${i}`,
-        // content: 'aaa',
-        // start: `2018-04-0${i} 01:10`,
-        // end: `2018-04-0${i} 01:10`,
-      // }));
-      videos.push({
+      videos.push(new Video({
         id: i,
         link: `/video.com?${i}`,
         content: `Video ${i}`,
@@ -69,7 +62,7 @@ const actions = {
           allParts.push(...parts);
           return parts;
         })(i),
-      });
+      }));
     }
     // console.log(videos);
     commit('setVideos', videos);
