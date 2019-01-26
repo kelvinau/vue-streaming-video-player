@@ -12,18 +12,27 @@ const state = {
 
 const getters = {
   firstStart(state) {
-    return state.gett
+    // const item = state.parts.min('start');
+    // return item ? item.start : '';
   },
 }
 
 const mutations = {
   setVideos(state, videos) {
     // TODO: should be working on the same instance instead?
-    state.videos = new DataSet(videos);
+    // state.videos = new DataSet(videos);
+    state.videos = videos;
+
+
   },
   setParts(state, parts) {
-    state.parts = new DataSet(parts);
+    // state.parts = new DataSet(parts);
+    state.parts = parts;
   },
+  addParts(state, part) {
+    // TODO: Also handle videos
+    state.parts.push(part);
+  }
 }
 
 const actions = {
@@ -50,11 +59,11 @@ const actions = {
             parts.push({
               id: `${groupId}--${i}`,
               group: groupId,
-              start: `2018-01-0${i + 1} ${groupId}:${i}`,
+              start: `2019-01-0${i + 1} ${groupId}:${i}`,
               // start: moment(`2018-01-0${i} 01:1${i}`).toDate(),
               // start: new Date(),
 
-              end: `2018-01-0${i + 1} ${groupId + 10}:${i}`,
+              end: `2019-01-0${i + 1} ${groupId + 10}:${i}`,
             });
           }
           allParts.push(...parts);
@@ -65,6 +74,8 @@ const actions = {
     // console.log(videos);
     commit('setVideos', videos);
     commit('setParts', allParts);
+
+
   }
 }
 

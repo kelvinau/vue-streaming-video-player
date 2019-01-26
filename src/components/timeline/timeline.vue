@@ -17,29 +17,8 @@ export default {
   },
   data() {
     return {
-      groups: new DataSet([
-        {
-          id: 0,
-          content: 'Group 1'
-        },
-        {
-          id: 1,
-          content: 'Group 2'
-        },
-      ]),
-      items: new DataSet([
-        {
-          group: 0,
-          start: '2018-01-25 15:05',
-          content: 'Item 1'
-        },
-        {
-          group: 1,
-          start: '2018-01-25 16:05',
-          content: 'Item 2'
-        },
-      ]),
       options: {
+        // min: this.$store.getters['timeline/firstStart'],
         showCurrentTime: false,
       }
     }
@@ -58,12 +37,14 @@ export default {
     this.$store.dispatch('timeline/retrieveAllVideos');
     setTimeout(() => {
       console.log(this);
-      this.items.add({
+      // test pushing new item
+      this.$store.commit('timeline/addParts', {
         group: 1,
-        start: new Date(),
-        content: 'Item 3',
-      })
-    }, 1000)
+        start: '2019-01-13',
+        content: 'New Item',
+      });
+
+    }, 3000)
   },
 }
 </script>
