@@ -1,32 +1,71 @@
 <template>
   <div>
     Timeline
-    <div ref="timeline-container"></div>
+    <Vis-Timeline ref="timeline" :items="parts" :groups="videos" :options="options"/>
   </div>
 </template>
 
 <script>
-import Timeline from 'vis/lib/timeline/Timeline';
-import 'vis/dist/vis.css';
+import {Timeline, DataSet} from 'vue2vis'
+import 'vue2vis/dist/vue2vis.css';
 
 export default {
   name: 'Timeline',
+  components: {
+    VisTimeline: Timeline,
+  },
   props: {
   },
-  mounted() {
-    const container = this.$refs['timeline-container'];
-    const data = [
-      // {id: 1, content: 'item 1', start: '2013-04-20'},
-      // {id: 2, content: 'item 2', start: '2013-04-14'},
-      // {id: 3, content: 'item 3', start: '2013-04-18'},
-      {id: 4, content: 'item 4', start: '2013-04-16 01:10', end: '2013-04-19'},
-      // {id: 5, content: 'item 5', start: '2013-04-25'},
-      // {id: 6, content: 'item 6', start: '2013-04-27'}
-    ];
-    const options = {};
-    const timeline = new Timeline(container, data, options);
+  data() {
+    return {
+      groups: new DataSet([
+        {
+          id: 0,
+          content: 'Group 1'
+        },
+        {
+          id: 1,
+          content: 'Group 2'
+        },
+      ]),
+      items: new DataSet([
+        {
+          group: 0,
+          start: '2018-01-25 15:05',
+          content: 'Item 1'
+        },
+        {
+          group: 1,
+          start: '2018-01-25 16:05',
+          content: 'Item 2'
+        },
+      ]),
+      options: {
+      }
+    }
   },
-};
+  computed: {
+    videos() {
+      return this.$store.state.timeline.videos;
+    },
+    parts() {
+      return this.$store.getters['timeline/parts'];
+    },
+  },
+  methods: {
+  },
+  created() {
+    this.$store.dispatch('timeline/retrieveAllVideos');
+    setTimeout(() => {
+      console.log(this);
+      this.items.add({
+        group: 1,
+        start: new Date(),
+        content: 'Item 3',
+      })
+    }, 1000)
+  },
+}
 </script>
 
 <style scoped>
