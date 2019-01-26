@@ -22,8 +22,6 @@ const mutations = {
     // TODO: should be working on the same instance instead?
     // state.videos = new DataSet(videos);
     state.videos = videos;
-
-
   },
   setParts(state, parts) {
     // state.parts = new DataSet(parts);
@@ -46,6 +44,7 @@ const actions = {
         id: i,
         link: `/video.com?${i}`,
         content: `Video ${i}`,
+        // Is it worth it to use this data structure? useful?
         parts: (function(groupId) {
           const parts = [];
           for (let i = 0; i < 10; i++) {
@@ -64,11 +63,8 @@ const actions = {
         })(i),
       }));
     }
-    // console.log(videos);
     commit('setVideos', videos);
     commit('setParts', allParts);
-
-
   }
 }
 
