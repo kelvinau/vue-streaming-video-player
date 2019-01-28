@@ -19,6 +19,7 @@ const getters = {
     return state.videos.filter((v) => v.shown);
   },
   shownParts(state) {
+    // This is wrong - if a camera is removed
     return state.parts.filter((p) => state.videos[p.group].shown);
   },
 };
@@ -36,6 +37,11 @@ const mutations = {
   addParts(state, part) {
     // TODO: Also handle videos
     state.parts.push(part);
+  },
+  toggleShown(state, groupId) {
+    // TODO: O(nlogn) every time? maybe use an object structure
+    const video = state.videos.find((v) => groupId === v.id);
+    video.shown = !video.shown;
   }
 };
 
