@@ -20,8 +20,8 @@ export default {
       options: {
         // min: this.$store.getters['timeline/firstStart'],
         showCurrentTime: false,
-      }
-    },
+      },
+    };
   },
   computed: {
     videos() {
