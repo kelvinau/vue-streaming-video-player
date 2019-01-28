@@ -50,15 +50,15 @@ export default {
   },
   created() {
     this.$store.dispatch('timeline/retrieveAllVideos');
-    setTimeout(() => {
-      console.log(this);
-      // test pushing new item
-      this.$store.commit('timeline/addParts', {
-        group: 1,
-        start: '2019-01-13',
-        content: 'New Item',
-      });
-    }, 3000);
+    /* setTimeout(() => { */
+      /* console.log(this); */
+      /* // test pushing new item */
+      /* this.$store.commit('timeline/addParts', { */
+        /* group: 1, */
+        /* start: '2019-01-13', */
+        /* content: 'New Item', */
+      /* }); */
+    /* }, 3000); */
   },
 };
 </script>
