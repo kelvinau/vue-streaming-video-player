@@ -6,14 +6,20 @@ import moment from 'moment';
 
 // separate to two state because looping videos to get back parts every time seems seems too much
 const state = {
-  videos: new DataSet([]),
-  parts: new DataSet([]),
+  videos: [],
+  parts: [],
 };
 
 const getters = {
   firstStart(state) {
     // const item = state.parts.min('start');
     // return item ? item.start : '';
+  },
+  shownVideos(state) {
+    return state.videos.filter((v) => v.shown);
+  },
+  shownParts(state) {
+    return state.parts.filter((p) => state.videos[p.group].shown);
   },
 };
 
@@ -36,6 +42,9 @@ const mutations = {
 const actions = {
   // should be an async request
   retrieveAllVideos({commit}) {
+
+
+
     // mock data
     const videos = [];
     const allParts = [];
@@ -44,6 +53,9 @@ const actions = {
         id: i,
         link: `/video.com?${i}`,
         content: `Video ${i}`,
+        shown: true,
+
+
         // Is it worth it to use this data structure? useful?
         parts: (function(groupId) {
           const parts = [];

@@ -1,8 +1,9 @@
 class Video {
-  constructor({id, link, parts}) {
+  constructor({id, link, parts, shown}) {
     this.id = id;
     this.link = link;
     this.parts = parts;
+    this.shown = shown;
   }
   showClip(clipStart, clipEnd) {
 

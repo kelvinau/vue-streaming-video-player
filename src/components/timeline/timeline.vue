@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Vis-Timeline ref="timeline" :items="parts" :groups="videos" :options="options"/>
+    <Vis-Timeline ref="timeline" :items="shownParts" :groups="shownVideos" :options="options"/>
   </div>
 </template>
 
@@ -24,11 +24,14 @@ export default {
     };
   },
   computed: {
-    videos() {
+    allVideos() {
       return this.$store.state.timeline.videos;
     },
-    parts() {
-      return this.$store.state.timeline.parts;
+    shownVideos() {
+      return this.$store.getters['timeline/shownVideos'];
+    },
+    shownParts() {
+      return this.$store.getters['timeline/shownParts'];
     },
   },
   methods: {
