@@ -52,35 +52,35 @@ const actions = {
 
 
     // mock data
-    const videos = [];
     const allParts = [];
-    for (let i = 0; i < 4; i++) {
-      videos.push(new Video({
+
+    const videos = Array.from({length: 4}, (v, i) => {
+      return new Video({
         id: i,
         link: `https://portal.hdontap.com/s/embed/?stream=streamname`,
         content: `Video ${i}`,
         shown: true,
 
-
         // Is it worth it to use this data structure? useful?
-        parts: (function(groupId) {
-          const parts = [];
-          for (let i = 0; i < 10; i++) {
-            parts.push(new Part({
-              id: `${groupId}--${i}`,
+        parts: ((groupId) => {
+          return Array.from({length: 10}, (p, j) => {
+            const part = new Part({
+              id: `${groupId}--${j}`,
               groupId,
-              start: `2019-01-0${i + 1} ${groupId}:${i}`,
+              start: `2019-01-0${j + 1} ${groupId}:${j}`,
               // start: moment(`2018-01-0${i} 01:1${i}`).toDate(),
               // start: new Date(),
 
-              end: `2019-01-0${i + 1} ${groupId + 10}:${i}`,
-            }));
-          }
-          allParts.push(...parts);
-          return parts;
+              end: `2019-01-0${j + 1} ${groupId + 10}:${j}`,
+            });
+
+            allParts.push(part);
+            return part;
+          })
         })(i),
-      }));
-    }
+      })
+    });
+
     commit('setVideos', videos);
     commit('setParts', allParts);
   }
