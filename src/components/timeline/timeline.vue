@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Vis-Timeline ref="timeline" :items="shownParts" :groups="shownVideos" :options="options"/>
     <div class="row">
       <div class="col-11"></div>
       <b-dropdown class="col-1" id="ddown1" text="Camera(s)" variant="primary" size="sm">
@@ -9,7 +10,6 @@
         </div>
       </b-dropdown>
     </div>
-    <Vis-Timeline ref="timeline" :items="shownParts" :groups="shownVideos" :options="options"/>
   </div>
 </template>
 

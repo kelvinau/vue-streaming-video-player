@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="d-flex flex-wrap justify-content-center">
+  <div class="container-fluid">
+    <div class="d-flex flex-wrap justify-content-between">
       <Player v-for="v in shownVideos" :key="v.id" :video="v"/>
     </div>
     <Timeline/>
