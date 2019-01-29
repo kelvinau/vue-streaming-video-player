@@ -54,10 +54,10 @@ const actions = {
     // mock data
     const videos = [];
     const allParts = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 4; i++) {
       videos.push(new Video({
         id: i,
-        link: `/video.com?${i}`,
+        link: `https://portal.hdontap.com/s/embed/?stream=streamname`,
         content: `Video ${i}`,
         shown: true,
 

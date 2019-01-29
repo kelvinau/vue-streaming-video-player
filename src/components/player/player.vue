@@ -1,6 +1,9 @@
 <template>
   <div>
-    Player
+    <b-card :header="`Camera ${video.id}`"
+      header-tag="header">
+      <iframe :src="video.link"></iframe>
+    </b-card>
   </div>
 </template>
 
@@ -8,10 +11,12 @@
 
 export default {
   name: 'Player',
-  props: {
-  },
+  props: ['video'],
 }
 </script>
 
 <style scoped>
+.container {
+
+}
 </style>
