@@ -84,15 +84,16 @@ export default {
       if (this.timerId) {
         clearTimeout(this.timerId);
       }
-      this.timerId = setTimeout(() => {
-        console.log('interval');
+      if (this.refreshTimePeriod) {
+        this.timerId = setTimeout(() => {
 
-        // some async function to retrieve the new data
-        this.$store.dispatch('timeline/retrieveAllVideos', true).then(() => {
-          this.refetch();
-        });
+          // some async function to retrieve the new data
+          this.$store.dispatch('timeline/retrieveAllVideos', true).then(() => {
+            this.refetch();
+          });
 
-      }, this.refreshTimePeriod * 1000);
+        }, this.refreshTimePeriod * 1000);
+      }
     }
   },
   created() {
