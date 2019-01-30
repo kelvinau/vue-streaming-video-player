@@ -1,6 +1,6 @@
 <template>
   <div class="m-2">
-    <b-card :header="`Camera ${video.id}`"
+    <b-card :header="`Video ${video.id}`"
       header-tag="header">
       <iframe :src="video.link"></iframe>
     </b-card>

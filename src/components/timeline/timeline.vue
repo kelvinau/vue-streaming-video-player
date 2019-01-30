@@ -22,10 +22,10 @@
 
       </b-dropdown>
 
-      <b-dropdown class="col-1" text="Camera(s)" variant="primary" size="sm">
+      <b-dropdown class="col-1" text="Video(s)" variant="primary" size="sm">
         <div v-for="v in allVideos" :key="v.id">
           <input type="checkbox" :checked="v.shown" @change="toggleShown(v.id)">
-          Camera {{v.id}}
+          Video {{v.id}}
         </div>
       </b-dropdown>
     </div>
