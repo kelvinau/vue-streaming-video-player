@@ -94,7 +94,7 @@ export default {
 
         }, this.refreshTimePeriod * 1000);
       }
-    }
+    },
   },
   created() {
     this.$store.dispatch('timeline/retrieveAllVideos');
