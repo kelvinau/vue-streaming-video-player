@@ -1,9 +1,28 @@
 <template>
   <div>
-    <Vis-Timeline ref="timeline" :items="shownParts" :groups="shownVideos" :options="options"/>
+    <Vis-Timeline
+      ref="timeline"
+      :items="shownParts"
+      :groups="shownVideos"
+      :options="options"
+      class="mb-2"
+    />
     <div class="row">
-      <div class="col-11"></div>
-      <b-dropdown class="col-1" id="ddown1" text="Camera(s)" variant="primary" size="sm">
+      <div class="col-9"></div>
+
+      <b-dropdown class="col-2" :text="`Auto Refresh: ${refreshTimePeriod ? `${refreshTimePeriod} seconds` : 'None'}`" variant="primary" size="sm">
+
+        <b-dropdown-item
+          v-for="(item, i) in refreshTimePeriods"
+          :key="i"
+          @click="setAutoRefersh(item)"
+        >
+          {{`${item ? `${item} seconds` : 'None'}`}}
+        </b-dropdown-item>
+
+      </b-dropdown>
+
+      <b-dropdown class="col-1" text="Camera(s)" variant="primary" size="sm">
         <div v-for="v in allVideos" :key="v.id">
           <input type="checkbox" :checked="v.shown" @change="toggleShown(v.id)">
           Camera {{v.id}}
@@ -30,6 +49,13 @@ export default {
         // min: this.$store.getters['timeline/firstStart'],
         showCurrentTime: false,
       },
+      refreshTimePeriods: [
+        false,
+        30,
+        60,
+        90,
+      ],
+      timerId: null,
     };
   },
   computed: {
@@ -42,23 +68,39 @@ export default {
     shownParts() {
       return this.$store.getters['timeline/shownParts'];
     },
+    refreshTimePeriod() {
+      return this.$store.state.timeline.refreshTimePeriod;
+    }
   },
   methods: {
     toggleShown(id) {
-      return this.$store.commit('timeline/toggleShown', id);
+      this.$store.commit('timeline/toggleShown', id);
+    },
+    setAutoRefersh(value) {
+      this.$store.commit('timeline/setRefreshTimePeriod', value);
+      this.refetch();
+    },
+    refetch() {
+      if (this.timerId) {
+        clearTimeout(this.timerId);
+      }
+      this.timerId = setTimeout(() => {
+        console.log('interval');
+
+        // some async function to retrieve the new data
+        this.$store.dispatch('timeline/retrieveAllVideos', true).then(() => {
+          this.refetch();
+        });
+
+      }, this.refreshTimePeriod * 1000);
     }
   },
   created() {
     this.$store.dispatch('timeline/retrieveAllVideos');
-    /* setTimeout(() => { */
-      /* console.log(this); */
-      /* // test pushing new item */
-      /* this.$store.commit('timeline/addParts', { */
-        /* group: 1, */
-        /* start: '2019-01-13', */
-        /* content: 'New Item', */
-      /* }); */
-    /* }, 3000); */
+
+    /* this.setAutoRefersh(10); */
+
+    this.refetch();
   },
 };
 </script>

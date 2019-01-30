@@ -8,6 +8,7 @@ import moment from 'moment';
 const state = {
   videos: [],
   parts: [],
+  refreshTimePeriod: 30,
 };
 
 const getters = {
@@ -42,48 +43,64 @@ const mutations = {
     // TODO: O(nlogn) every time? maybe use an object structure
     const video = state.videos.find((v) => groupId === v.id);
     video.shown = !video.shown;
+  },
+  setRefreshTimePeriod(state, value) {
+    state.refreshTimePeriod = value;
   }
 };
 
 const actions = {
   // should be an async request
-  retrieveAllVideos({commit}) {
+  // addNew is just a flag
+  retrieveAllVideos({commit}, addNew) {
 
+    return new Promise((resolve, reject) => {
+      // mock data
+      const allParts = [];
 
+      const videos = Array.from({length: 4}, (v, i) => {
+        return new Video({
+          id: i,
+          link: `https://portal.hdontap.com/s/embed/?stream=streamname`,
+          content: `Video ${i}`,
+          shown: true,
 
-    // mock data
-    const allParts = [];
+          // Is it worth it to use this data structure? useful?
+          parts: ((groupId) => {
+            return Array.from({length: 10}, (p, j) => {
+              const part = new Part({
+                id: `${groupId}--${j}`,
+                groupId,
+                start: `2019-01-0${j + 1} ${groupId}:${j}`,
+                // start: moment(`2018-01-0${i} 01:1${i}`).toDate(),
+                // start: new Date(),
 
-    const videos = Array.from({length: 4}, (v, i) => {
-      return new Video({
-        id: i,
-        link: `https://portal.hdontap.com/s/embed/?stream=streamname`,
-        content: `Video ${i}`,
-        shown: true,
+                end: `2019-01-0${j + 1} ${groupId + 10}:${j}`,
+              });
 
-        // Is it worth it to use this data structure? useful?
-        parts: ((groupId) => {
-          return Array.from({length: 10}, (p, j) => {
-            const part = new Part({
-              id: `${groupId}--${j}`,
-              groupId,
-              start: `2019-01-0${j + 1} ${groupId}:${j}`,
-              // start: moment(`2018-01-0${i} 01:1${i}`).toDate(),
-              // start: new Date(),
+              allParts.push(part);
+              return part;
+            })
+          })(i),
+        })
+      });
 
-              end: `2019-01-0${j + 1} ${groupId + 10}:${j}`,
-            });
+      // this is just for mock data
+      if (addNew) {
+        const part = new Part({
+          id: '0--10',
+          groupId: 0,
+          start: new Date(),
+        })
+        videos[videos.length - 1].parts.push(part);
+        allParts.push(part);
+      }
+      commit('setVideos', videos);
+      commit('setParts', allParts);
 
-            allParts.push(part);
-            return part;
-          })
-        })(i),
-      })
+      resolve();
     });
-
-    commit('setVideos', videos);
-    commit('setParts', allParts);
-  }
+  },
 };
 
 function getParts(videos) {
