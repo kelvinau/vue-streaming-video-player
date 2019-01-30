@@ -67,15 +67,15 @@ const actions = {
 
           // Is it worth it to use this data structure? useful?
           parts: ((groupId) => {
-            return Array.from({length: 10}, (p, j) => {
+            return Array.from({length: 9}, (p, j) => {
               const part = new Part({
                 id: `${groupId}--${j}`,
                 groupId,
-                start: `2019-01-0${j + 1} ${groupId}:${j}`,
+                start: `2019-01-2${j + 1} ${groupId}:${j}`,
                 // start: moment(`2018-01-0${i} 01:1${i}`).toDate(),
                 // start: new Date(),
 
-                end: `2019-01-0${j + 1} ${groupId + 10}:${j}`,
+                end: `2019-01-2${j + 1} ${groupId + 10}:${j}`,
               });
 
               allParts.push(part);
@@ -87,10 +87,13 @@ const actions = {
 
       // this is just for mock data
       if (addNew) {
+        const current = moment();
         const part = new Part({
           id: '0--10',
           groupId: 0,
-          start: new Date(),
+          content: 'New Fetched Item',
+          start: current.toDate(),
+          end: current.add(200, 'minutes').toDate(),
         })
         videos[videos.length - 1].parts.push(part);
         allParts.push(part);
