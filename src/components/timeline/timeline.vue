@@ -140,8 +140,12 @@ export default {
     },
     onRightClicked(props) {
       console.log(props);
-      if (props.item) {
-        alert('right clicked!');
+      if (!props.item && props.group && props.time) {
+        if (this.highlightRange.length === 2 &&
+            this.highlightRange[0].time <= props.time &&
+            this.highlightRange[1].time >= props.time) {
+          alert('Right Clicked within highlighted range');
+        }
       }
       props.event.preventDefault();
     },
