@@ -101,7 +101,7 @@ export default {
       }
     },
     onClicked(e) {
-      console.log(e);
+      /* console.log(e); */
       // highlight
       if (e.item) {
         switch(this.highlightRange.length) {
@@ -112,7 +112,7 @@ export default {
             break;
           case 1:
             const firstItem = this.highlightRange[0];
-            if (e.group !== firstItem.group || e.time <= firstItem.group) {
+            if (e.group !== firstItem.group || e.time <= firstItem.time) {
               this.clearHighlightPart();
             }
             else {
