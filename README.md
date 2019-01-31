@@ -1,6 +1,6 @@
 # Vue Streaming Video Player
 
-![Vue Streaming Video Player](https://kelvinau.github.io/vue-streaming-video-player/screenshot.png)
+![Vue Streaming Video Player](https://kelvinau.github.io/vue-streaming-video-player/screenshot.png?1)
 
 ## Project setup
 ```
