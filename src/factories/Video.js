@@ -12,11 +12,13 @@ class Video {
 }
 
 class Part {
-  constructor({id, groupId, start, end}) {
+  constructor({id, groupId, start, end, className, type = 'range'}) {
     this.id = id;
     this.group = groupId;
     this.start = start;
     this.end = end;
+    this.className = className;
+    this.type = type;
   }
 }
 export {

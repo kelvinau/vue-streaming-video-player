@@ -8,6 +8,7 @@ import moment from 'moment';
 const state = {
   videos: [],
   parts: [],
+  highlightPart: null,
   refreshTimePeriod: 30,
 };
 
@@ -21,7 +22,11 @@ const getters = {
   },
   shownParts(state) {
     // This is wrong - if a camera is removed
-    return state.parts.filter((p) => state.videos[p.group].shown);
+    const filtered = state.parts.filter((p) => p.type === 'range' && state.videos[p.group].shown);
+    if (state.highlightPart) {
+      filtered.push(state.highlightPart);
+    }
+    return filtered;
   },
 };
 
@@ -46,7 +51,10 @@ const mutations = {
   },
   setRefreshTimePeriod(state, value) {
     state.refreshTimePeriod = value;
-  }
+  },
+  setHighlightPart(state, part) {
+    state.highlightPart = part;
+  },
 };
 
 const actions = {
@@ -96,6 +104,22 @@ const actions = {
         videos[videos.length - 1].parts.push(part);
         allParts.push(part);
       }
+
+
+      // // background items
+      // const first = moment().add(0, 'day');
+      // const highlightPart = new Part({
+        // id: 'background-1',
+        // groupId: 0,
+        // start: first.toDate(),
+        // end: first.add(2, 'day'),
+        // type: 'background',
+        // className: 'highlighted-range',
+      // });
+
+      // commit('setHighlightPart', highlightPart);
+
+
       commit('setVideos', videos);
       commit('setParts', allParts);
 

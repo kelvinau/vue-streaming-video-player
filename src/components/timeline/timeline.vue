@@ -5,6 +5,8 @@
       :items="shownParts"
       :groups="shownVideos"
       :options="options"
+      @click="onClicked"
+      @contextmenu="onRightClicked"
       class="mb-2"
     />
     <div class="row">
@@ -34,6 +36,7 @@
 
 <script>
 import {Timeline, DataSet} from 'vue2vis'
+import {Part} from '../../factories/Video';
 import 'vue2vis/dist/vue2vis.css';
 
 export default {
@@ -48,6 +51,7 @@ export default {
       options: {
         // min: this.$store.getters['timeline/firstStart'],
         showCurrentTime: false,
+        selectable: false,
       },
       refreshTimePeriods: [
         false,
@@ -56,6 +60,7 @@ export default {
         90,
       ],
       timerId: null,
+      highlightRange: [],
     };
   },
   computed: {
@@ -70,7 +75,7 @@ export default {
     },
     refreshTimePeriod() {
       return this.$store.state.timeline.refreshTimePeriod;
-    }
+    },
   },
   methods: {
     toggleShown(id) {
@@ -95,6 +100,55 @@ export default {
         }, this.refreshTimePeriod * 1000);
       }
     },
+    onClicked(e) {
+      console.log(e);
+      // highlight
+      if (e.item) {
+        switch(this.highlightRange.length) {
+          case 0:
+          case 2:
+            this.clearHighlightPart();
+            this.highlightRange.push(e);
+            break;
+          case 1:
+            const firstItem = this.highlightRange[0];
+            if (e.group !== firstItem.group || e.time <= firstItem.group) {
+              this.clearHighlightPart();
+            }
+            else {
+              // a lot of unncessary items
+              // better to take only the necessary ones
+              this.highlightRange.push(e);
+
+              const part = new Part({
+                id: 'background-1',
+                groupId: e.group,
+                start: firstItem.time,
+                end: e.time,
+                type: 'background',
+                className: 'highlighted-range',
+              });
+              this.$store.commit('timeline/setHighlightPart', part);
+            }
+            break;
+        }
+      }
+      // unhighlight
+      else {
+        this.clearHighlightPart();
+      }
+    },
+    onRightClicked(props) {
+      console.log(props);
+      if (props.item) {
+        alert('right clicked!');
+      }
+      props.event.preventDefault();
+    },
+    clearHighlightPart() {
+      this.highlightRange = [];
+      this.$store.commit('timeline/setHighlightPart', null);
+    }
   },
   created() {
     this.$store.dispatch('timeline/retrieveAllVideos');
@@ -106,5 +160,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+.vis-item.vis-background.highlighted-range {
+  background-color: rgba(255, 247, 133, 0.6);
+  z-index: 2;
+}
 </style>
